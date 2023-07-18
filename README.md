@@ -29,7 +29,7 @@ to practice my web scraping skill and something I learned from the class called 
 
     ![](https://cdn.discordapp.com/attachments/1106922465533366343/1130778760845729812/image.png)
 
-5. paste the URL of the beatmap and it does the analysis
+5. paste the URL of the beatmap and it does the analysis(all gamemodes work and preferably all the ranked maps or the loved one before 2021)
 
 # Known Issues
 I don't know how to eliminate the error messages when loading the app initially plz help
