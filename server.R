@@ -46,6 +46,7 @@ shinyServer(function(input, output) {
       needed_map = unlist(strsplit(mapinfo[2],
                                    split = "'converts'", fixed = T))
       diffinfo = needed_map[1]
+      
       #find the position of 'version', 'difficulty_rating'
       version_start = unlist(gregexpr("'version'", diffinfo))
       version_end = unlist(gregexpr(",'accuracy'", diffinfo))
@@ -56,9 +57,19 @@ shinyServer(function(input, output) {
       ps_start = unlist(gregexpr("'passcount'", diffinfo))
       ps_end = unlist(gregexpr(",'playcount'", diffinfo))
       
+      fail_start = unlist(gregexpr("'fail'", diffinfo))
+      fail_end = unlist(gregexpr(",'exit'", diffinfo))
+      exit_start = unlist(gregexpr("'exit'", diffinfo))
+      exit_end = unlist(gregexpr(",'max_combo'", diffinfo))
+      
+      hitlength_start = unlist(gregexpr("'hit_length'", diffinfo))
+      hitlength_end = unlist(gregexpr(",'is_scoreable'", diffinfo))
+      
       rowname = c("Difficulty", "Star Rating", "Play Count",
-                  "Pass Count", "Pass Ratio")
-      diffmatrix = matrix(data = NA, nrow = 5, ncol = length(version_start),
+                  "Pass Count", "Pass Ratio", "Hard Parts",
+                  "Annoying Parts")
+      diffmatrix = matrix(data = NA, nrow = length(rowname),
+                          ncol = length(version_start),
                           dimnames = list(rowname))
       
       for (i in c(1:nrow(diffmatrix))) {
@@ -85,6 +96,36 @@ shinyServer(function(input, output) {
             diffmatrix[i,j] = round(as.numeric(substring(
               as.numeric(diffmatrix[4,j]) / as.numeric(diffmatrix[3,j]),
               1, 6)), digits = 3)
+          }
+          if(i == 6){ #fail, show top 3 hardest parts
+            hitlength = as.numeric(substr(
+              diffinfo, hitlength_start[j]+13, hitlength_end[j]-1
+            ))
+            fail = as.numeric(unlist(strsplit(substr(
+              diffinfo, fail_start[j]+8, fail_end[j]-2), ",")))
+            sorted = sort(fail, decreasing = TRUE)
+            place = format(
+              as.POSIXct(
+                "1970-01-01"
+              ) + (hitlength * (which(fail %in% sorted[1:3]) / 100)),
+              "%M:%S"
+            )
+            diffmatrix[i,j] = paste(place, collapse = ", ")
+          }
+          if(i == 7){ #exit, show top 3 the most annoying parts
+            hitlength = as.numeric(substr(
+              diffinfo, hitlength_start[j]+13, hitlength_end[j]-2
+            ))
+            exit = as.numeric(unlist(strsplit(substr(
+              diffinfo, exit_start[j]+8, exit_end[j]-2), ",")))
+            sorted = sort(exit, decreasing = TRUE)
+            place = format(
+              as.POSIXct(
+                "1970-01-01"
+              ) + (hitlength * (which(exit %in% sorted[1:3]) / 10)),
+              "%M:%S"
+            )
+            diffmatrix[i,j] = paste(place, collapse = ", ")
           }
         }
       }
