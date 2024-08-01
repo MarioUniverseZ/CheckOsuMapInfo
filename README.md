@@ -1,7 +1,7 @@
 # CheckOsuMapInfo
 an application which checks difficulty information from a beatmap(might be pretty useless though)
 
-![image](https://github.com/user-attachments/assets/85ac4a37-a43c-4b7a-8f40-7b5a8553a8a0)
+![image](https://github.com/user-attachments/assets/f1231a49-26c0-4f48-9819-1a81ee8835b3)
 
 # Why Do You Wanna Make This?
 to practice my web scraping skill and something I learned from the class called ```Data Exploration and Information Visualization```(資料探索及資訊視覺化)
@@ -30,11 +30,4 @@ to practice my web scraping skill and something I learned from the class called 
 5. paste the URL of the beatmap and it does the analysis(all gamemodes work and preferably all the ranked maps or the loved one before 2021)
 
 # Known Issues
-I don't know how to eliminate the error messages when loading the app initially plz help
-
-<details>
-  <summary></summary>
-  
-  ![image](https://github.com/user-attachments/assets/c87dfd00-4248-4e90-83c5-b7195029430f)
-  
-</details>
+none yet
